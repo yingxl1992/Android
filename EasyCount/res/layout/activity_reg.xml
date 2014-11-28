@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+	<EditText
+	    android:id="@+id/et_username"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:layout_centerHorizontal="true"
+	    android:layout_marginTop="48dp"
+	    android:ems="10"
+	    android:hint="用户名" 
+	    android:drawableLeft="@drawable/user"
+	    android:background="@drawable/edittext_bg">
+	 <requestFocus />
+	 </EditText>
+
+	<Button
+	    android:id="@+id/btn_reg"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/et_password"
+	    android:layout_alignRight="@+id/et_username"
+	    android:layout_below="@+id/et_password"
+	    android:text="注册" />
+
+	<EditText
+	    android:id="@+id/et_password"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/et_username"
+	    android:layout_alignRight="@+id/et_username"
+	    android:layout_below="@+id/et_username"
+	    android:background="@drawable/edittext_bg"
+	    android:drawableLeft="@drawable/pwd"
+	    android:ems="10"
+	    android:hint="密码"
+	    android:inputType="textPassword" />
+
+	<Button
+	    android:id="@+id/btn_login"
+	    style="?android:attr/buttonStyleSmall"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignRight="@+id/btn_reg"
+	    android:layout_below="@+id/btn_reg"
+	    android:text="登录>>" />
+
+</RelativeLayout>

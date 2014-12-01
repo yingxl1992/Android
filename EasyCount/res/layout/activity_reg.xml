@@ -11,9 +11,10 @@
 	    android:layout_centerHorizontal="true"
 	    android:layout_marginTop="48dp"
 	    android:ems="10"
-	    android:hint="用户名" 
+	    android:hint="用户名为邮箱地址" 
 	    android:drawableLeft="@drawable/user"
-	    android:background="@drawable/edittext_bg">
+	    android:background="@drawable/edittext_bg"
+	    android:inputType="textEmailAddress">
 	 <requestFocus />
 	 </EditText>
 

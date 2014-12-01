@@ -41,17 +41,16 @@ public class MainActivity extends ActionBarActivity implements
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		switch (position) {
 		case 0:
-			fragmentManager
-			.beginTransaction()
-			.replace(R.id.container,
-					LoginFragment.newInstance(position)).commit();
+			fragmentManager.beginTransaction().replace(R.id.container, ExpendFragment.newInstance(position)).commit();
 			break;
-
+		case 1:
+			fragmentManager.beginTransaction().replace(R.id.container, IncomeFragment.newInstance(position)).commit();
+			break;
+		case 2:
+			fragmentManager.beginTransaction().replace(R.id.container, CountFragment.newInstance(position)).commit();
+			break;
 		default:
-			fragmentManager
-			.beginTransaction()
-			.replace(R.id.container,
-					LoginFragment.newInstance(position)).commit();
+			fragmentManager.beginTransaction().replace(R.id.container, SettingFragment.newInstance(position)).commit();
 			break;
 		}
 		

@@ -45,7 +45,6 @@ public class LoginFragment extends Fragment {
 			
 			public void onClick(View v) {
 				Intent intent=new Intent(getActivity(), RegActivity.class);
-				intent.putExtra("position", 1);
 				startActivity(intent);				
 			}
 		});

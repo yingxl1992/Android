@@ -16,23 +16,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity{
+	
+//	String usernameString;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+//		int state=0;
+////		可以实现已登陆后跳转
+//		if (state==0) {
+//			Intent intent=new Intent(LoginActivity.this, MainActivity.class);
+//			intent.putExtra("username", usernameString);
+//			startActivity(intent);
+//		}
+//		
 		
-		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder() 
-		.detectDiskReads() 
-		.detectDiskWrites() 
-		.detectNetwork()
-		.penaltyLog() 
-		.build()); 
-		StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder() 
-		.detectLeakedSqlLiteObjects() 
-		.detectLeakedClosableObjects() 
-		.penaltyLog() 
-		.penaltyDeath() 
-		.build());
 		
 		Button btn_loginButton=(Button)findViewById(R.id.btn_login);
 		Button btn_reg=(Button)findViewById(R.id.btn_reg);
@@ -43,6 +42,19 @@ public class LoginActivity extends Activity{
 			
 			public void onClick(View v) {
 				try {
+					StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder() 
+					.detectDiskReads() 
+					.detectDiskWrites() 
+					.detectNetwork()
+					.penaltyLog() 
+					.build()); 
+					StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder() 
+					.detectLeakedSqlLiteObjects() 
+					.detectLeakedClosableObjects() 
+					.penaltyLog() 
+					.penaltyDeath() 
+					.build());
+					
 					String usernameString=usernameEditText.getText().toString();
 					String passwordString=passwordEditText.getText().toString();
 					

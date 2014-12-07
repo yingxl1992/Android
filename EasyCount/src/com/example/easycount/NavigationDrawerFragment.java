@@ -1,6 +1,13 @@
 package com.example.easycount;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import com.example.easycount.utils.CurrentDayUtil;
+
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -8,17 +15,22 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation
@@ -54,9 +66,11 @@ public class NavigationDrawerFragment extends Fragment {
 	private ListView mDrawerListView;
 	private View mFragmentContainerView;
 
-	private int mCurrentSelectedPosition=1;
+	private int mCurrentSelectedPosition = 0;
 	private boolean mFromSavedInstanceState;
 	private boolean mUserLearnedDrawer;
+	
+	CurrentDayUtil currentDayUtil;
 
 	public NavigationDrawerFragment() {
 	}
@@ -64,24 +78,29 @@ public class NavigationDrawerFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Read in the flag indicating whether or not the user has demonstrated
+		// awareness of the
+		// drawer. See PREF_USER_LEARNED_DRAWER for details.
 		SharedPreferences sp = PreferenceManager
 				.getDefaultSharedPreferences(getActivity());
 		mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
-		Intent intent=getActivity().getIntent();
-		mCurrentSelectedPosition=intent.getIntExtra("position", 0);
 		if (savedInstanceState != null) {
 			mCurrentSelectedPosition = savedInstanceState
 					.getInt(STATE_SELECTED_POSITION);
 			mFromSavedInstanceState = true;
 		}
 
+		// Select either the default item (0) or the last selected item.
 		selectItem(mCurrentSelectedPosition);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		// Indicate that this fragment would like to influence the set of
+		// actions in the action bar.
 		setHasOptionsMenu(true);
 	}
 
@@ -94,7 +113,6 @@ public class NavigationDrawerFragment extends Fragment {
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
-						
 						selectItem(position);
 					}
 				});
@@ -105,9 +123,8 @@ public class NavigationDrawerFragment extends Fragment {
 						getString(R.string.title_section2),
 						getString(R.string.title_section3),
 						getString(R.string.title_section4),
-						getString(R.string.title_section5),}));
+						getString(R.string.title_section6)}));
 		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-		
 		return mDrawerListView;
 	}
 
@@ -248,11 +265,80 @@ public class NavigationDrawerFragment extends Fragment {
 	}
 
 	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// If the drawer is open, show the global app actions in the action bar.
+		// See also
+		// showGlobalContextActionBar, which controls the top-left area of the
+		// action bar.
+		if (mDrawerLayout != null && isDrawerOpen()) {
+			inflater.inflate(R.menu.global, menu);
+			showGlobalContextActionBar();
+		}
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
+
+		if (currentDayUtil==null) {
+			currentDayUtil=new CurrentDayUtil();
+		}
+		if (item.getItemId() == R.id.action_add) {
+			Intent intent;
+			intent=new Intent(getActivity(), AddActivity.class);
+     		intent.putExtra("currentDate",currentDayUtil);
+     		intent.putExtra("currentpos", mCurrentSelectedPosition);
+			startActivity(intent);
+			return true;
+		}
+		
+		final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+		if (item.getItemId() == R.id.action_settings) {
+			DatePickerDialog datePickerDialog=new DatePickerDialog(getActivity(), new OnDateSetListener() {
+
+				@Override
+				public void onDateSet(DatePicker view, int year,
+						int monthOfYear, int dayOfMonth) {
+					currentDayUtil=new CurrentDayUtil(year,monthOfYear+1,dayOfMonth);
+					String dateString=currentDayUtil.getYear()+"/"+currentDayUtil.getMonth()+"/"+currentDayUtil.getDay();
+					System.out.println("navTime"+dateString);
+					if (mCurrentSelectedPosition==0) {
+						Bundle bundle=new Bundle();
+						bundle.putSerializable("currentDate",currentDayUtil);
+						ExpendFragment expendFragment=ExpendFragment.newInstance(mCurrentSelectedPosition);
+						expendFragment.setArguments(bundle);
+						fragmentManager.beginTransaction().replace(R.id.container,expendFragment).commit();
+					}
+					else {
+						Bundle bundle=new Bundle();
+						bundle.putSerializable("currentDate",currentDayUtil);
+						IncomeFragment incomeFragment=IncomeFragment.newInstance(mCurrentSelectedPosition);
+						incomeFragment.setArguments(bundle);
+						fragmentManager.beginTransaction().replace(R.id.container,incomeFragment).commit();
+					}
+					
+				}
+			}, currentDayUtil.getYear(), currentDayUtil.getMonth()-1, currentDayUtil.getDay());
+			datePickerDialog.show();
+			return true;
+		}
+
 		return super.onOptionsItemSelected(item);
+	}
+
+	/**
+	 * Per the navigation drawer design guidelines, updates the action bar to
+	 * show the global app 'context', rather than just what's in the current
+	 * screen.
+	 */
+	private void showGlobalContextActionBar() {
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		actionBar.setTitle(R.string.app_name);
 	}
 
 	private ActionBar getActionBar() {
@@ -269,6 +355,4 @@ public class NavigationDrawerFragment extends Fragment {
 		 */
 		void onNavigationDrawerItemSelected(int position);
 	}
-	
 }
-

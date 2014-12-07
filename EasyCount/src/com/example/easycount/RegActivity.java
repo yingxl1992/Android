@@ -22,18 +22,7 @@ public class RegActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_reg);
 		
-		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder() 
-		.detectDiskReads() 
-		.detectDiskWrites() 
-		.detectNetwork()
-		.penaltyLog() 
-		.build()); 
-		StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder() 
-		.detectLeakedSqlLiteObjects() 
-		.detectLeakedClosableObjects() 
-		.penaltyLog() 
-		.penaltyDeath() 
-		.build());
+		
 		
 		Button btn_loginButton=(Button)findViewById(R.id.btn_login);
 		btn_loginButton.setOnClickListener(new OnClickListener() {
@@ -53,6 +42,18 @@ public class RegActivity extends Activity{
 			
 			public void onClick(View v) {
 				try{
+					StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder() 
+					.detectDiskReads() 
+					.detectDiskWrites() 
+					.detectNetwork()
+					.penaltyLog() 
+					.build()); 
+					StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder() 
+					.detectLeakedSqlLiteObjects() 
+					.detectLeakedClosableObjects() 
+					.penaltyLog() 
+					.penaltyDeath() 
+					.build());
 					SoapObject request =new SoapObject("http://ws.web.easycount.yxl/","addUser");
 					request.addProperty("username",usernameEditText.getText().toString());
 					request.addProperty("password", passwordEditText.getText().toString());

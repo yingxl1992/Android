@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/linear_interpolator">
+    <!-- 定义缩放变换 -->
+	<scale android:fromXScale="1.0"  
+		android:toXScale="0.01"  
+		android:fromYScale="1.0"  
+		android:toYScale="0.01"  
+		android:pivotX="50%" 
+		android:pivotY="50%" 
+		android:fillAfter="true" 
+		android:duration="10000"/>
+	<!-- 定义位移变换 -->
+    <translate android:fromXDelta="0"
+        android:fromYDelta="0"
+        android:toYDelta="300"
+        android:toXDelta="300"
+        android:duration="10000"/>
+
+</set>

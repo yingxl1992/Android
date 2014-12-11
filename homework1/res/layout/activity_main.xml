@@ -1,0 +1,86 @@
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="20dip"
+        android:layout_y="20dip"
+        android:text="Username:" />
+
+    <EditText
+        android:id="@+id/et_username"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:layout_x="80dip"
+        android:layout_y="-9dp"
+        android:width="200px" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/tv_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="20dip"
+        android:layout_y="80dip"
+        android:text="Password:" />
+
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="224dp"
+        android:layout_height="wrap_content"
+        android:layout_x="80dip"
+        android:layout_y="80dip"
+        android:inputType="textPassword" />
+   
+
+    <Button
+        android:id="@+id/bt_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="75dp"
+        android:layout_y="196dp"
+        android:text="Login"/>
+
+    <Button
+        android:id="@+id/bt_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="171dp"
+        android:layout_y="195dp"
+        android:text="Reset" />
+
+     <TextView
+         android:id="@+id/result"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_x="10dp"
+         android:layout_y="276dp" />
+
+     <RadioGroup
+        android:id="@+id/rg_loginType"  
+    	android:layout_width="wrap_content"  
+    	android:layout_height="wrap_content"  
+    	android:layout_x="50dp"
+	    android:layout_y="139dp"
+    	android:orientation="horizontal">
+	     <RadioButton
+	         android:id="@+id/rb_student"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"	         
+	         android:text="Student" />
+	
+	     <RadioButton
+	         android:id="@+id/rb_teacher"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"
+	         android:text="Teacher" />
+     </RadioGroup>
+     
+
+
+</AbsoluteLayout>
